@@ -1,0 +1,39 @@
+package co.edu.udistrital.model;
+
+public class Nodo<T> {
+
+    private T dato;
+    private Nodo<T> siguiente;
+
+    // Constructor
+    public Nodo(T dato) {
+        this(dato, null);
+    }
+
+    public Nodo(T dato, Nodo<T> siguiente) {
+        this.dato = dato;
+        this.siguiente = siguiente;
+    }
+
+    // Getters y Setters
+    public T getDato() {
+        return dato;
+    }
+
+    public void setDato(T dato) {
+        this.dato = dato;
+    }
+
+    public Nodo<T> getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(Nodo<T> siguiente) {
+        this.siguiente = siguiente;
+    }
+
+    @Override
+    public String toString() {
+        return dato.toString();
+    }
+}
