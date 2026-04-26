@@ -79,4 +79,9 @@ public class Juego {
         
         return "Se ha reiniciado el juego, incluye nuevos jugadores desde 0";
     }
+    
+    public String obtenerJugadorActual() {
+        String actual = jugadores.getJugadorActual();
+        return (actual != null) ? actual : "Ninguno";
+    }
 }
