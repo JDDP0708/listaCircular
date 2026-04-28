@@ -8,21 +8,22 @@ public class VistaJuego extends JFrame {
 
     private JTextField txtNombre;
     private JButton btnAgregar, btnIniciar, btnLanzar, btnReiniciar;
-    private JList<String> listJugadores;
-    private DefaultListModel<String> listModel;
     private JTextArea txtLog;
     private JLabel lblTurno;
+    
+    // REEMPLAZO: Ya no usamos JList, usamos nuestro panel personalizado
+    private PanelAnilloJugadores panelVisualAnillo; 
 
     public VistaJuego() {
-        setTitle("Juego de Suerte");
-        setSize(650, 500);
+        setTitle("Juego de la Lista Circular");
+        setSize(800, 600); // Un poco más grande para que quepa el anillo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
         Font fuenteGeneral = new Font("SansSerif", Font.PLAIN, 14);
 
-        //agregae jugadores
+        // --- PANEL SUPERIOR: Agregar Jugadores ---
         JPanel panelTop = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panelTop.setBorder(new EmptyBorder(10, 10, 0, 10));
         
@@ -37,26 +38,24 @@ public class VistaJuego extends JFrame {
         panelTop.add(txtNombre);
         panelTop.add(btnAgregar);
 
-        // Lista y registrro
+        // --- PANEL CENTRAL: Visualización y Logs ---
         JPanel panelCenter = new JPanel(new BorderLayout(10, 10));
         panelCenter.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // indicador de turno
+        // Letrero del turno
         JPanel panelTurno = new JPanel(new FlowLayout(FlowLayout.CENTER));
         lblTurno = new JLabel("Turno actual: Esperando inicio...");
-        lblTurno.setFont(new Font("SansSerif", Font.BOLD, 16));
-        lblTurno.setForeground(new Color(41, 128, 185)); // Azul oscuro
+        lblTurno.setFont(new Font("SansSerif", Font.BOLD, 18));
+        lblTurno.setForeground(new Color(41, 128, 185));
         panelTurno.add(lblTurno);
 
-        // para listas
-        JPanel panelListas = new JPanel(new GridLayout(1, 2, 10, 10));
+        // Sub-panel contenedor para dividirse entre Anillo Visual y Consola de Logs
+        JPanel panelContenido = new JPanel(new GridLayout(1, 2, 10, 10));
         
-        listModel = new DefaultListModel<>();
-        listJugadores = new JList<>(listModel);
-        listJugadores.setFont(fuenteGeneral);
-        JScrollPane scrollLista = new JScrollPane(listJugadores);
-        scrollLista.setBorder(BorderFactory.createTitledBorder("Jugadores Actuales"));
+        // INSTANCIAMOS EL NUEVO PANEL VISUAL
+        panelVisualAnillo = new PanelAnilloJugadores();
 
+        // Consola de Logs
         txtLog = new JTextArea();
         txtLog.setFont(fuenteGeneral);
         txtLog.setEditable(false);
@@ -65,18 +64,19 @@ public class VistaJuego extends JFrame {
         JScrollPane scrollLog = new JScrollPane(txtLog);
         scrollLog.setBorder(BorderFactory.createTitledBorder("Registro del Juego"));
 
-        panelListas.add(scrollLista);
-        panelListas.add(scrollLog);
+        // Añadimos el Anillo (izq) y Logs (der)
+        panelContenido.add(panelVisualAnillo);
+        panelContenido.add(scrollLog);
 
         panelCenter.add(panelTurno, BorderLayout.NORTH);
-        panelCenter.add(panelListas, BorderLayout.CENTER);
+        panelCenter.add(panelContenido, BorderLayout.CENTER);
 
-        // botones de controles del juego
+        // --- PANEL INFERIOR: Controles del juego ---
         JPanel panelBottom = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panelBottom.setBorder(new EmptyBorder(0, 10, 10, 10));
 
         btnIniciar = crearBoton("Iniciar Juego", new Color(52, 152, 219)); // Azul
-        btnLanzar = crearBoton("Lanzar Dado", new Color(155, 89, 182)); // Morado
+        btnLanzar = crearBoton("🎲 Lanzar Dado", new Color(155, 89, 182)); // Morado
         btnLanzar.setEnabled(false);
         btnReiniciar = crearBoton("Reiniciar", new Color(231, 76, 60)); // Rojo
 
@@ -89,44 +89,32 @@ public class VistaJuego extends JFrame {
         add(panelBottom, BorderLayout.SOUTH);
     }
 
-    // metodo para los colores
     private JButton crearBoton(String texto, Color colorFondo) {
         JButton boton = new JButton(texto);
         boton.setBackground(colorFondo);
         boton.setForeground(Color.WHITE);
         boton.setFocusPainted(false);
-        boton.setOpaque(true); // fondo
-        boton.setBorderPainted(false); // quitar el borde nativo que oculta el color
+        boton.setOpaque(true);
+        boton.setBorderPainted(false);
         boton.setFont(new Font("SansSerif", Font.BOLD, 13));
         return boton;
     }
 
-    // getters y setters para actualizar
-    public JTextField getTxtNombre() { 
-        return txtNombre; 
-    }
-    public JButton getBtnAgregar() { 
-        return btnAgregar; 
-    }
-    public JButton getBtnIniciar() { 
-        return btnIniciar; 
-    }
-    public JButton getBtnLanzar() { 
-        return btnLanzar; 
-    }
-    public JButton getBtnReiniciar() { 
-        return btnReiniciar; 
-    }
+    // --- GETTERS ---
+    public JTextField getTxtNombre() { return txtNombre; }
+    public JButton getBtnAgregar() { return btnAgregar; }
+    public JButton getBtnIniciar() { return btnIniciar; }
+    public JButton getBtnLanzar() { return btnLanzar; }
+    public JButton getBtnReiniciar() { return btnReiniciar; }
     
+    // --- NUEVOS MÉTODOS DE ACTUALIZACIÓN ---
     public void setMensajeTurno(String mensaje) {
         lblTurno.setText(mensaje);
     }
 
-    public void actualizarLista(String[] jugadores) {
-        listModel.clear();
-        for (String j : jugadores) {
-            listModel.addElement(j);
-        }
+    // Puente para actualizar los datos dentro del panel del anillo
+    public void actualizarVisualizacionAnillo(String[] jugadores, String jugadorActual) {
+        panelVisualAnillo.actualizarDatos(jugadores, jugadorActual);
     }
 
     public void agregarLog(String mensaje) {
