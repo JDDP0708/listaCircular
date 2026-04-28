@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
+/**
+ * Clase que representa un panel gráfico personalizado para dibujar 
+ * a los jugadores en forma de anillo (círculo).
+ * * @author Jimmy 
+ */
 public class PanelAnilloJugadores extends JPanel {
 
     private String[] nombresJugadores;
@@ -14,6 +19,10 @@ public class PanelAnilloJugadores extends JPanel {
     private final Color colorJugadorTurno = new Color(52, 152, 219);  // Azul brillante
     private final Color colorBorde = Color.WHITE;
 
+    /**
+     * Constructor por defecto.
+     * Inicializa el panel con fondo blanco y un borde con título.
+     */
     public PanelAnilloJugadores() {
         // Fondo blanco para que resalten los círculos
         setBackground(Color.WHITE);
@@ -22,7 +31,11 @@ public class PanelAnilloJugadores extends JPanel {
         this.nombreJugadorActual = "";
     }
 
-    // Método para actualizar los datos desde el controlador
+    /**
+     * Actualiza los datos de los jugadores y solicita redibujar el panel.
+     * * @param nuevosNombres Arreglo con los nombres de los jugadores vivos.
+     * @param actual        Nombre del jugador que tiene el turno actual.
+     */
     public void actualizarDatos(String[] nuevosNombres, String actual) {
         this.nombresJugadores = nuevosNombres;
         this.nombreJugadorActual = actual;
@@ -30,12 +43,18 @@ public class PanelAnilloJugadores extends JPanel {
         repaint();
     }
 
+    /**
+     * Sobreescribe el método de pintado de Swing para dibujar la geometría
+     * del anillo y los círculos de los jugadores.
+     * * @param g Objeto Graphics proporcionado por Swing.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Usamos Graphics2D para suavizar bordes (Anti-aliasing)
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         int totalJugadores = nombresJugadores.length;
         if (totalJugadores == 0) {
@@ -78,7 +97,8 @@ public class PanelAnilloJugadores extends JPanel {
             }
 
             // Dibujar el fondo del círculo
-            Ellipse2D.Double circulo = new Ellipse2D.Double(x - radioJugador, y - radioJugador, radioJugador * 2, radioJugador * 2);
+            Ellipse2D.Double circulo = new Ellipse2D.Double(x - radioJugador, 
+                    y - radioJugador, radioJugador * 2, radioJugador * 2);
             g2d.fill(circulo);
 
             // Dibujar el borde del círculo
@@ -96,11 +116,16 @@ public class PanelAnilloJugadores extends JPanel {
         }
     }
 
+    /**
+     * Dibuja un mensaje por defecto cuando no hay jugadores en el arreglo.
+     * * @param g2d Objeto Graphics2D configurado para el panel.
+     */
     private void drawMensajeVacio(Graphics2D g2d) {
         g2d.setColor(Color.GRAY);
         g2d.setFont(new Font("SansSerif", Font.ITALIC, 16));
         String msg = "Agrega jugadores para ver el anillo...";
         FontMetrics fm = g2d.getFontMetrics();
-        g2d.drawString(msg, (getWidth() - fm.stringWidth(msg)) / 2, getHeight() / 2);
+        g2d.drawString(msg, (getWidth() - fm.stringWidth(msg)) / 
+                2, getHeight() / 2);
     }
 }

@@ -4,23 +4,38 @@ import co.edu.udistrital.model.Juego;
 import co.edu.udistrital.view.VistaJuego;
 import javax.swing.JOptionPane;
 
+/**
+ * Clase que actúa como intermediario entre la Vista y el Modelo (Juego).
+ * Maneja los eventos de usuario (clics en botones) y actualiza la vista.
+ */
 public class ControladorJuego {
 
     private final Juego modelo;
     private final VistaJuego vista;
 
+    /**
+     * Constructor del controlador.
+     * * @param modelo Instancia de la clase Juego que contiene la lógica.
+     * @param vista  Instancia de la interfaz gráfica principal.
+     */
     public ControladorJuego(Juego modelo, VistaJuego vista) {
         this.modelo = modelo;
         this.vista = vista;
         inicializarEventos();
     }
 
+    /**
+     * Asocia los Listeners a los botones de la vista.
+     * Define qué sucede cuando el usuario interactúa con la interfaz.
+     */
     private void inicializarEventos() {
         // Evento: Agregar Jugador
         vista.getBtnAgregar().addActionListener(e -> {
             String nombre = vista.getTxtNombre().getText().trim();
             if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(vista, "Ingrese un nombre válido.", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(vista, 
+                        "Ingrese un nombre válido.", "Error", 
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
@@ -31,15 +46,18 @@ public class ControladorJuego {
                 vista.getTxtNombre().setText("");
                 vista.getTxtNombre().requestFocus();
             } else {
-                JOptionPane.showMessageDialog(vista, "El jugador ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vista, "El jugador ya existe.", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        // Evento: Iniciar Juego
+        // Evento: iniciar Juego
         vista.getBtnIniciar().addActionListener(e -> {
             String[] jugadores = modelo.obtenerNombresJugadores();
             if (jugadores.length < 2) {
-                JOptionPane.showMessageDialog(vista, "Necesitas al menos 2 jugadores.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(vista, 
+                        "Necesitas al menos 2 jugadores.", "Aviso", 
+                        JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
@@ -83,13 +101,16 @@ public class ControladorJuego {
         });
     }
 
-    // Método centralizado para actualizar texto de turno y anillo visual a la vez
+    /**
+     * Método centralizado para sincronizar la Vista con el estado actual del Modelo.
+     * Extrae al jugador de turno y la lista de jugadores restantes para redibujar el anillo.
+     */
     private void actualizarEstadoVisual() {
         String jugadorActual = modelo.obtenerJugadorActual();
         String[] listaJugadores = modelo.obtenerNombresJugadores();
 
         if (modelo.juegoTerminado() && listaJugadores.length == 1) {
-             vista.setMensajeTurno("¡Ganador: " + jugadorActual + "! 🎉");
+             vista.setMensajeTurno("Ganador: " + jugadorActual + "");
         } else if (listaJugadores.length == 0) {
              vista.setMensajeTurno("Turno actual: Esperando inicio...");
         } else {
@@ -100,6 +121,9 @@ public class ControladorJuego {
         vista.actualizarVisualizacionAnillo(listaJugadores, jugadorActual);
     }
 
+    /**
+     * Hace visible la interfaz gráfica e inicia la interacción con el usuario.
+     */
     public void iniciar() {
         vista.setVisible(true);
     }

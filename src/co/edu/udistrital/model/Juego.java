@@ -52,7 +52,8 @@ public class Juego {
 
     public String ejecutarRonda(int dado) {
         if (juegoTerminado()) {
-            return "El juego ya ha terminado, el ganador es: " + jugadores.getJugadorActual();
+            return "El juego ya ha terminado, el ganador es: " 
+                    + jugadores.getJugadorActual();
         }
 
         String jugadorDeTurno = jugadores.getJugadorActual();
@@ -60,14 +61,17 @@ public class Juego {
 
         if (dado % 2 == 0) {
             jugadores.eliminarActual();
-            mensaje = jugadorDeTurno + " sacó " + dado + " (Par) y ha sido ELIMINADO.";
+            mensaje = jugadorDeTurno + " sacó " + dado 
+                    + " (Par) y ha sido ELIMINADO.";
         } else {
             jugadores.nuevoTurno();
-            mensaje = jugadorDeTurno + " sacó " + dado + " (Impar) y SALTA dos posiciones.";
+            mensaje = jugadorDeTurno + " sacó " + dado 
+                    + " (Impar) y SALTA dos posiciones.";
         }
 
         if (juegoTerminado()) {
-            mensaje += " \n¡El juego ha terminado! El ganador es: " + jugadores.getJugadorActual();
+            mensaje += " \n¡El juego ha terminado! El ganador es: " 
+                    + jugadores.getJugadorActual();
         }
 
         return mensaje;

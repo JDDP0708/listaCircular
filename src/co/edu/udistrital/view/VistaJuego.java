@@ -4,16 +4,23 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Ventana principal de la aplicación.
+ * Maneja la interfaz gráfica de usuario y expone los componentes 
+ * para ser escuchados por el Controlador.
+ */
 public class VistaJuego extends JFrame {
 
     private JTextField txtNombre;
     private JButton btnAgregar, btnIniciar, btnLanzar, btnReiniciar;
     private JTextArea txtLog;
     private JLabel lblTurno;
-    
-    // REEMPLAZO: Ya no usamos JList, usamos nuestro panel personalizado
     private PanelAnilloJugadores panelVisualAnillo; 
 
+    /**
+     * Constructor de la Vista. Configura el layout, inicializa los componentes
+     * y ensambla los paneles superior, central e inferior.
+     */
     public VistaJuego() {
         setTitle("Juego de la Lista Circular");
         setSize(800, 600); // Un poco más grande para que quepa el anillo
@@ -62,7 +69,8 @@ public class VistaJuego extends JFrame {
         txtLog.setLineWrap(true);
         txtLog.setWrapStyleWord(true);
         JScrollPane scrollLog = new JScrollPane(txtLog);
-        scrollLog.setBorder(BorderFactory.createTitledBorder("Registro del Juego"));
+        scrollLog.setBorder(
+                BorderFactory.createTitledBorder("Registro del Juego"));
 
         // Añadimos el Anillo (izq) y Logs (der)
         panelContenido.add(panelVisualAnillo);
@@ -72,11 +80,13 @@ public class VistaJuego extends JFrame {
         panelCenter.add(panelContenido, BorderLayout.CENTER);
 
         // --- PANEL INFERIOR: Controles del juego ---
-        JPanel panelBottom = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        panelBottom.setBorder(new EmptyBorder(0, 10, 10, 10));
+        JPanel panelBottom = new JPanel(
+                new FlowLayout(FlowLayout.CENTER, 20, 10));
+        panelBottom.setBorder(
+                new EmptyBorder(0, 10, 10, 10));
 
         btnIniciar = crearBoton("Iniciar Juego", new Color(52, 152, 219)); // Azul
-        btnLanzar = crearBoton("🎲 Lanzar Dado", new Color(155, 89, 182)); // Morado
+        btnLanzar = crearBoton("Lanzar Dado", new Color(155, 89, 182)); // Morado
         btnLanzar.setEnabled(false);
         btnReiniciar = crearBoton("Reiniciar", new Color(231, 76, 60)); // Rojo
 
@@ -89,6 +99,12 @@ public class VistaJuego extends JFrame {
         add(panelBottom, BorderLayout.SOUTH);
     }
 
+    /**
+     * Crea un botón estilizado para evitar los problemas de renderizado en Windows/Mac.
+     * * @param texto      Texto que mostrará el botón.
+     * @param colorFondo Color de fondo del botón.
+     * @return Instancia de JButton estilizada.
+     */
     private JButton crearBoton(String texto, Color colorFondo) {
         JButton boton = new JButton(texto);
         boton.setBackground(colorFondo);
@@ -107,21 +123,36 @@ public class VistaJuego extends JFrame {
     public JButton getBtnLanzar() { return btnLanzar; }
     public JButton getBtnReiniciar() { return btnReiniciar; }
     
-    // --- NUEVOS MÉTODOS DE ACTUALIZACIÓN ---
+    /**
+     * Actualiza el texto del letrero superior que indica el turno o estado del juego.
+     * * @param mensaje Mensaje a mostrar.
+     */
     public void setMensajeTurno(String mensaje) {
         lblTurno.setText(mensaje);
     }
 
-    // Puente para actualizar los datos dentro del panel del anillo
-    public void actualizarVisualizacionAnillo(String[] jugadores, String jugadorActual) {
+    /**
+     * Pasa los datos actualizados al panel que dibuja el anillo.
+     * * @param jugadores     Arreglo de nombres de jugadores vivos.
+     * @param jugadorActual Nombre del jugador en turno.
+     */
+    public void actualizarVisualizacionAnillo(String[] jugadores, 
+            String jugadorActual) {
         panelVisualAnillo.actualizarDatos(jugadores, jugadorActual);
     }
 
+    /**
+     * Agrega un mensaje a la consola de la vista y hace auto-scroll hacia abajo.
+     * * @param mensaje Texto del log a añadir.
+     */
     public void agregarLog(String mensaje) {
         txtLog.append(mensaje + "\n\n");
         txtLog.setCaretPosition(txtLog.getDocument().getLength()); 
     }
 
+    /**
+     * Borra todo el texto de la consola de registros.
+     */
     public void limpiarLogs() {
         txtLog.setText("");
     }
