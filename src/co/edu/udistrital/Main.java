@@ -5,7 +5,17 @@ import co.edu.udistrital.model.Juego;
 import co.edu.udistrital.view.VistaJuego;
 import javax.swing.UIManager;
 
+/**
+ * Clase inicializadora del programa
+ * 
+ * @author Christopher
+ */
 public class Main {
+
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         // Hace que la interfaz se vea como una ventanita de windows
         try {

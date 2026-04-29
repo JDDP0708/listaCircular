@@ -7,7 +7,8 @@ import java.awt.geom.Ellipse2D;
 /**
  * Clase que representa un panel gráfico personalizado para dibujar 
  * a los jugadores en forma de anillo (círculo).
- * * @author Jimmy 
+ * 
+ * @author Jimmy 
  */
 public class PanelAnilloJugadores extends JPanel {
 
@@ -33,7 +34,8 @@ public class PanelAnilloJugadores extends JPanel {
 
     /**
      * Actualiza los datos de los jugadores y solicita redibujar el panel.
-     * * @param nuevosNombres Arreglo con los nombres de los jugadores vivos.
+     * 
+     * @param nuevosNombres Arreglo con los nombres de los jugadores vivos.
      * @param actual        Nombre del jugador que tiene el turno actual.
      */
     public void actualizarDatos(String[] nuevosNombres, String actual) {
@@ -46,7 +48,8 @@ public class PanelAnilloJugadores extends JPanel {
     /**
      * Sobreescribe el método de pintado de Swing para dibujar la geometría
      * del anillo y los círculos de los jugadores.
-     * * @param g Objeto Graphics proporcionado por Swing.
+     * 
+     * @param g Objeto Graphics proporcionado por Swing.
      */
     @Override
     protected void paintComponent(Graphics g) {
@@ -118,7 +121,8 @@ public class PanelAnilloJugadores extends JPanel {
 
     /**
      * Dibuja un mensaje por defecto cuando no hay jugadores en el arreglo.
-     * * @param g2d Objeto Graphics2D configurado para el panel.
+     * 
+     * @param g2d Objeto Graphics2D configurado para el panel.
      */
     private void drawMensajeVacio(Graphics2D g2d) {
         g2d.setColor(Color.GRAY);

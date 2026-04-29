@@ -15,7 +15,8 @@ public class ControladorJuego {
 
     /**
      * Constructor del controlador.
-     * * @param modelo Instancia de la clase Juego que contiene la lógica.
+     * 
+     * @param modelo Instancia de la clase Juego que contiene la lógica.
      * @param vista  Instancia de la interfaz gráfica principal.
      */
     public ControladorJuego(Juego modelo, VistaJuego vista) {

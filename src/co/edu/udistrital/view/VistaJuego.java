@@ -101,7 +101,8 @@ public class VistaJuego extends JFrame {
 
     /**
      * Crea un botón estilizado para evitar los problemas de renderizado en Windows/Mac.
-     * * @param texto      Texto que mostrará el botón.
+     * 
+     * @param texto      Texto que mostrará el botón.
      * @param colorFondo Color de fondo del botón.
      * @return Instancia de JButton estilizada.
      */
@@ -117,15 +118,46 @@ public class VistaJuego extends JFrame {
     }
 
     // --- GETTERS ---
+
+    /**
+     * Retornar nombre
+     * 
+     * @return retorno del nombre
+     */
     public JTextField getTxtNombre() { return txtNombre; }
+
+    /**
+     * Retornar boton agregar
+     * 
+     * @return JButton de agregar
+     */
     public JButton getBtnAgregar() { return btnAgregar; }
+
+    /**
+     * Retornar boton inicial
+     * 
+     * @return JButton de iniciar
+     */
     public JButton getBtnIniciar() { return btnIniciar; }
+
+    /**
+     * Retornar boton lanzar
+     * 
+     * @return JButton de lanzar
+     */
     public JButton getBtnLanzar() { return btnLanzar; }
+
+    /**
+     * Retornar boton reiniciar
+     * 
+     * @return Jbutton de reiniciar
+     */
     public JButton getBtnReiniciar() { return btnReiniciar; }
     
     /**
      * Actualiza el texto del letrero superior que indica el turno o estado del juego.
-     * * @param mensaje Mensaje a mostrar.
+     * 
+     * @param mensaje Mensaje a mostrar.
      */
     public void setMensajeTurno(String mensaje) {
         lblTurno.setText(mensaje);
@@ -133,7 +165,8 @@ public class VistaJuego extends JFrame {
 
     /**
      * Pasa los datos actualizados al panel que dibuja el anillo.
-     * * @param jugadores     Arreglo de nombres de jugadores vivos.
+     * 
+     * @param jugadores     Arreglo de nombres de jugadores vivos.
      * @param jugadorActual Nombre del jugador en turno.
      */
     public void actualizarVisualizacionAnillo(String[] jugadores, 
@@ -143,7 +176,8 @@ public class VistaJuego extends JFrame {
 
     /**
      * Agrega un mensaje a la consola de la vista y hace auto-scroll hacia abajo.
-     * * @param mensaje Texto del log a añadir.
+     * 
+     * @param mensaje Texto del log a añadir.
      */
     public void agregarLog(String mensaje) {
         txtLog.append(mensaje + "\n\n");
